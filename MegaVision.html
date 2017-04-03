@@ -1,0 +1,161 @@
+<!--
+    TODO LIST:
+    1.完成canvas                              DONE
+    1.5.完成鼠标指针                           DONE
+    2.完成铅笔                                DONE 21:58
+    2.5 完成画笔大小调节                       DONE 4:37
+    3.完成钢笔                                DONE 1:46
+    3.5 完成调色板格式                         DONE 2:25
+    4.完成橡皮擦     DONE 4:46 取色            DONE 6:55
+    5.完成马赛克绘图                           DONE 5:37
+    5.5 完成导入导出                          DONE 3:30
+    6.完成预览图                              DONE 3:36
+
+    7.完成指针颜色   PENDING
+    7.5 完成放大镜   PENDING
+    8.完成撤销       PENDING
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MegaVision</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <!-- 可选的Bootstrap主题	文件（一般不用引入） -->
+	<link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+
+	<link rel="stylesheet" href="./css/docs.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="./jquery/jquery-3.0.0.min.js"></script>
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/MegaVision.js"></script>
+</head>
+<body>
+    <div class="page-header">
+	   <header class="navbar navbar-fixed-top bs-docs-nav"  role="navigation">
+            <div class="navbar-header" > 
+                <a class="navbar-brand navbar_brand-logo" style = "padding-top:0px" href="./MegaVision.html">
+                    <div style = "overflow:hidden; width: 250px; height: 75px" >
+                	<img alt="Logo" src="./img/logo.svg" style="margin: -20px -380px;width: 950px">
+                    </div>
+                </a>
+            </div>
+            <nav id="bs-navbar" class="collapse navbar-collapse">
+      			<ul class="nav navbar-nav navbar-right" style="padding-left: 20px">
+                    <li style="margin-top:10px;margin-right:10px">
+                        <a onclick="Clear('canvas_0')" href="#">Clear</a>
+                    </li>
+                    <li style="margin-top:10px;margin-right:10px">
+                        <a onclick="Import('canvas_0')" href="#">Import</a>
+                    </li>
+                    <li style="margin-top:10px;margin-right:10px">
+                        <a onclick="Export('canvas_0')" href="#">Export</a>
+                    </li>
+      			</ul>
+    		</nav>
+        </header>
+    </div>
+    <div id="output">
+        <div class="left-area">
+            <div class="page-sidebar">
+                <ul style="">
+                        <div id="pencil" class="brushButton brushButtonSelected">
+                            <a href="#" >
+                                <img onMouseOver="this.src = './img/pencil_on.svg'" onMouseOut="this.src = './img/pencil.svg'" src = "./img/pencil.svg" onclick="selectButton('pencil')" >
+                            </a>
+                        </div>
+                        <div id="pen" class="brushButton">
+                            <a href="#">
+                                <img onMouseOver="this.src = './img/pen_on.svg' " onMouseOut="this.src = './img/pen.svg'" src = "./img/pen.svg" onclick="selectButton('pen')" >
+                            </a>
+                        </div>
+                        <div id="eraser" class="brushButton">
+                            <a href="#" >
+                                <img onMouseOver="this.src = './img/eraser_on.svg'" onMouseOut="this.src = './img/eraser.svg'" src = "./img/eraser.svg" onclick="selectButton('eraser')" >
+                            </a>
+                        </div>
+                        <div id="square" class="brushButton">
+                            <a href="#" >
+                                <img onMouseOver="this.src = './img/square_on.svg'" onMouseOut="this.src = './img/square.svg'" src = "./img/square.svg" onclick="selectButton('square')" >
+                            </a>
+                        </div>
+                        <div id="sampler" class="brushButton">
+                            <a href="#" >
+                                <img onMouseOver="this.src = './img/sampler_on.svg'" onMouseOut="this.src = './img/sampler.svg'" src = "./img/sampler.svg" onclick="selectButton('sampler')" >
+                            </a>
+                        </div>
+                    <!--
+                    <li>
+                        <div id="brush" class="brushButton">
+                            <img src = "./img/color.svg" onclick="selectButton('brush')">
+                        </div>
+                    </li>
+                    -->
+                        
+                         <div class="colorShowSquare">
+                            <a href="#"><div class="colorShow" onclick="$('.HSV').show(100);"></div></a>
+                            <div class = "HSV" id="HSV" style = "display: none">
+                                <div class="HSVArrow"></div>
+                                <div class = "HSVMain">
+                                    <div id="SatVal" class="SatVal" onmousedown="setPointer(event,'pointer');">
+                                        <class class="pointer"></class>
+                                        <div id="SatValBg" class="SatValBg"></div>
+                                    </div>
+
+                                    <div id="Hue" class="Hue">
+                                        <div id="Slide" class="Slide" onmousedown="HSVslide(event,'Slide');"></div>
+                                        <div class="basicHue" onmousedown="HSVslide(event,'Slide');"></div>
+                                    </div>
+                                    
+                                    <div class = "colorText">
+                                        <div style="float:left;width: 50px;">
+                                            <div style="text-align: center;font-size:30px;font-weight:bold;">R</div>
+                                            <output id="strR" maxlength="3" ></output>
+                                        </div>
+                                        <div style="float:left;width: 50px;margin-left:50px;">
+                                            <div style="text-align: center;font-size:30px;font-weight:bold;">G</div>
+                                            <output id="strG" maxlength="3" ></output>
+                                        </div>
+                                        <div style="float:left;width: 50px;margin-left:50px;">
+                                            <div style="text-align: center;font-size:30px;font-weight:bold;">B</div>
+                                            <output id="strB" maxlength="3" ></output>
+                                        </div>
+
+                                        <!--
+                                        <div>H S V</div>
+                                        <output id="strH" maxlength="3"></output>
+                                        <output id="strS" maxlength="3"></output>
+                                        <output id="strV" maxlength="3"></output>
+                                        -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-slider" id="width-slider" onmousedown="widthSlide(event,'width-slider-handle');">
+                            <div class="width-slider-handle" onmousedown="widthSlide(event,'width-slider-handle');"></div>
+                        </div>
+                        <output id="width-val" style="padding-left: 33px;position: absolute;"></output>
+                    </ul> 
+            </div>
+        </div>
+        <div class="middle-area">
+            <div class="page-region">
+                <div class = "canvas-box">
+                    <canvas class="canvas-container" id="canvas_0"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="right-area">
+            <div class = "thumb">
+                <div class="canvas-box" style="margin-left:15px;">
+                    <canvas class="canvas-thumb-container" id="canvas_thumb"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
