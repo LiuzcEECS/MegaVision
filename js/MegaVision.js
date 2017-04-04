@@ -207,7 +207,7 @@ selectButton = function(buttonName) {
 	$(lastSelect).removeClass("brushButtonSelected");
 	$("#" + buttonName).addClass("brushButtonSelected");
 	lastSelect = "#" + buttonName
-	$(".canvas-container").css("cursor", "url('./img/" + buttonName + "_cursor.svg'), auto");
+	$(".canvas-container").css("cursor", "url('/static/MegaVisio/img/" + buttonName + "_cursor.svg'), auto");
 };
 
 cursor2width = function(cursor){
@@ -429,7 +429,7 @@ $(document).ready(function() {
 		is_painting = false
 	});
 
-	$(".canvas-container").css("cursor", "url('./img/" + lastSelect.substring(1) + "_cursor.svg'), auto");
+	$(".canvas-container").css("cursor", "url('/static/MegaVision/img/" + lastSelect.substring(1) + "_cursor.svg'), auto");
 
 	//canvas binding events
 	$(".canvas-container").mousedown(function(e) {
@@ -465,6 +465,9 @@ $(document).ready(function() {
 		canvas.fillStyle="#ffffff";
 		canvas.fillRect(0, 0, canvas_dom.width, canvas_dom.height);
 		canvas.fillStyle=tem;
+		canvas_thumb_dom = document.getElementById("canvas_thumb");
+		canvas_thumb = canvas_thumb_dom.getContext('2d');
+		clearThumb(canvas_thumb)
 	}
 	Clear()
 	function img2canvas(img)
@@ -507,7 +510,8 @@ $(document).ready(function() {
 		//alert(strDataURI)
 		downloadURI(strDataURI,"your_picture.png")
 	}
-	alert('本网页须在适合缩放比例下使用，过大或过小均会造成使用的不便，请您调整显示器缩放比例，直至窗口包含绘图画布和缩略图，参考缩放比例: "100%-110%"')
+	//alert('本网页须在适合缩放比例下使用，过大或过小均会造成使用的不便，请您调整显示器缩放比例，直至窗口包含绘图画布和缩略图，参考缩放比例: "100%-110%"')
+	alert('please adjust the size of the explore until the paint board and thumbnail are both included in the window.')
 	/*
 		$(".width-slider").slider({
 			range: 'min',
